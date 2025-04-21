@@ -1,0 +1,108 @@
+/* Store.css */
+
+/* Container for all store cards */
+.stores-container {
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid columns */
+    gap: 25px; /* Space between cards */
+    padding: 25px; /* Padding around the container */
+    max-width: 1200px; /* Optional: Limit max width */
+    margin: 20px auto; /* Center the container */
+  }
+  
+ 
+  .store-card {
+    background-color: #ffffff; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    display: flex; 
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; 
+  }
+  
+  .store-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+  }
+  
+
+  .store-image{
+  width:100%;
+  height: 180px;
+  overflow: hidden;
+  background-color: #f0f0f0; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  }
+
+.store-image img {
+  width: 100%; 
+  height: 100%;
+  object-fit: contain; 
+  display: block;
+  max-width: 100%; 
+  max-height: 100%;
+} 
+/* In NewStores.css */
+
+  
+  /* Container for text details and button */
+  .store-details {
+    padding: 15px 20px; /* Padding inside the details section */
+    flex-grow: 1; /* Allow details section to grow if needed */
+    display: flex;
+    flex-direction: column; /* Stack details vertically */
+  }
+  
+  /* Store name */
+  .store-name {
+    font-size: 1.25em; /* Larger font size for name */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px; /* Space below the name */
+  }
+  
+  /* Store address and ID */
+  .store-address,
+  .store-id {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 6px; /* Space between paragraphs */
+    line-height: 1.4;
+  }
+  
+  .store-id {
+    color: #777; /* Lighter color for ID */
+    font-size: 0.9em;
+    margin-bottom: 15px; /* More space before the button */
+  }
+  
+  /* Details button styling */
+  .store-details button {
+    background-color: #28a745; /* Green background for action */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: auto; /* Push button to the bottom of the card */
+    transition: background-color 0.3s ease;
+  }
+  
+  .store-details button:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  /* Responsive adjustments (Optional Example) */
+  @media (max-width: 600px) {
+    .stores-container {
+      grid-template-columns: 1fr; 
+      padding: 15px;
+    }
+  }

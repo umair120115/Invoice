@@ -1,0 +1,88 @@
+/* storeDetails.css */
+
+/* Style the container for store information */
+.storeinfo {
+    background-color: #f9f9f9; /* Light background for the info section */
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Internal spacing */
+    margin: 20px auto; /* Center the box and add space around it */
+    max-width: 600px; /* Limit width for better readability */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  }
+  
+  /* Style the paragraphs within the store info */
+  .storeinfo p {
+    margin-bottom: 10px; /* Space between lines */
+    line-height: 1.6; /* Improve readability */
+    color: #333; /* Dark grey text color */
+  }
+  
+  .storeinfo p strong {
+    color: #111; /* Slightly darker color for labels */
+    margin-right: 8px; /* Space after the label */
+  }
+  
+  /* Style the heading for the form section */
+  .form-heading { /* Add this class to your strong tag if needed, or style strong directly */
+    display: block; /* Make it a block element */
+    text-align: center; /* Center the text */
+    font-size: 1.2em; /* Make it slightly larger */
+    margin-top: 30px; /* Space above the form */
+    margin-bottom: 20px; /* Space below the heading */
+    color: #444;
+  }
+  
+  /* Style the form container */
+  form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items horizontally */
+    padding: 20px;
+    margin: 0 auto; /* Center the form */
+    max-width: 600px; /* Match the width of the info box */
+    background-color: #ffffff; /* White background for the form */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Style form labels */
+  form label {
+    margin-bottom: 5px; /* Space below the label */
+    margin-top: 15px; /* Space above the label */
+    font-weight: bold; /* Make labels bold */
+    color: #555;
+    width: 80%; /* Set width for alignment */
+    text-align: left; /* Align text to the left */
+  }
+  
+  /* Style form input fields */
+  form input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px; /* Space below the input */
+    font-size: 1em;
+    width: 80%; /* Make inputs take up most of the form width */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+  }
+  
+  /* Style the submit button */
+  form button[type="submit"] {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    padding: 12px 25px; /* Generous padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Indicate it's clickable */
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 20px; /* Space above the button */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+  }
+  
+  /* Add a hover effect to the button */
+  form button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
