@@ -1,0 +1,105 @@
+/* WinnerDetails.css */
+
+/* General container styling (optional, if you want to center or add margins to the whole component) */
+.winner-details-container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  max-width: 1200px; /* Adjust as needed */
+  margin: 0 auto; /* Centers the container */
+}
+
+/* Styling for the heading */
+.winner-details-container h3 {
+  text-align: center;
+  color: #2c3e50; /* Dark blue-grey */
+  margin-bottom: 25px;
+  font-size: 2em; /* Larger font size for the heading */
+  border-bottom: 2px solid #3498db; /* Blue accent line */
+  padding-bottom: 10px;
+  display: inline-block; /* Allows border to only span the text width if centered */
+}
+
+/* Center the heading container if you want the border to be centered too */
+.heading-container {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.heading-container h3 {
+  color: #2c3e50;
+  font-size: 2em;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  display: inline-block; /* Important for the border to wrap the text */
+  margin-bottom: 0; /* Reset default margin if parent handles spacing */
+}
+
+
+/* Table styling */
+.winner-details-container table {
+  width: 100%;
+  border-collapse: collapse; /* Removes default spacing between cells */
+  margin-top: 20px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* Ensures box-shadow and border-radius apply correctly */
+}
+
+/* Table header styling */
+.winner-details-container th {
+  background-color: #3498db; /* Primary blue */
+  color: #ffffff; /* White text */
+  padding: 15px;
+  text-align: left;
+  font-weight: bold;
+  text-transform: uppercase; /* Uppercase header text */
+  letter-spacing: 0.5px;
+}
+
+/* Table body cells styling */
+.winner-details-container td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ecf0f1; /* Light grey border for rows */
+  color: #555; /* Darker grey for text for better readability */
+}
+
+/* Alternating row colors for better readability */
+.winner-details-container tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Very light grey for even rows */
+}
+
+.winner-details-container tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+/* Hover effect for table rows */
+.winner-details-container tbody tr:hover {
+  background-color: #e9ecef; /* Slightly darker grey on hover */
+  cursor: default; /* Indicates it's not clickable unless you add functionality */
+}
+
+/* Specific column styling (optional) */
+.winner-details-container td:first-child { /* Sr.No. column */
+  text-align: center;
+  font-weight: bold;
+  color: #3498db; /* Blue color for Sr.No. */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .winner-details-container table {
+    display: block;
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+    white-space: nowrap; /* Prevents table cells from wrapping */
+  }
+
+  .winner-details-container th,
+  .winner-details-container td {
+    white-space: nowrap; /* Ensure cell content doesn't wrap on small screens */
+  }
+
+  .winner-details-container h3 {
+    font-size: 1.5em;
+  }
+}

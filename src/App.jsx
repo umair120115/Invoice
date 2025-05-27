@@ -6,6 +6,7 @@ import StoreDetails from './pages/StoreDetails';
 import Home from './pages/Invoice';
 import { DataProvider } from './components/Context';
 import Login from './components/Login';
+import WinnerDetails from './pages/WinnersList';
 function App() {
   function ResgisterandLogout(){
     localStorage.clear();
@@ -24,6 +25,7 @@ function App() {
            {/* <Route path='/home' element={<StoresList/>}/> */}
            <Route path='/home' element={<NewStoresList/>}/>
            <Route path='/logout' element={<Logout/>}/>
+           <Route path='/winner-list' element={<WinnerDetails/>} />
            
          
        
