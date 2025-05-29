@@ -13,25 +13,32 @@ const Home = () => {
     })
     const navigate= useNavigate();
     
+    
     const location=useLocation();
     const [invoice,setInvoice]= useState([])
-    const  productDetails= location.state //All products having status confirmed or commpleted!
-    const store_email =productDetails[0].store_email || 'NA'
-    const owner =productDetails[0].store_owner || 'NA'
+    const productDetails = location.state //All products having status confirmed or commpleted!
+  
+    
+    const store_email =productDetails[0].store_email
+    const owner =productDetails[0].store_owner
     const store_name=productDetails[0].store
+
     const updatedData = productDetails.map((item) => ({
         // commission: item.commission,
         discountPrice: item.discount_price,
         itemTotal: item.item_total,
         orderID: item.orderID,
-        orderDate: new Date(item.order_date),
+        orderDate:(item.order_date),//new Date(item.order_date),
         unit_price: item.unit_price,
         discount_price: item.discount_price,
         product: item.product,
         quantity: item.quantity,
         store: item.store,
-        tax: item.tax
+        tax: item.tax,
+        order_date:item.orderDate
+
     }))
+    console.log(updatedData);
     useEffect(
         ()=>{
             getInvoice();
@@ -48,7 +55,7 @@ const Home = () => {
         setInvoice(res.data.invoice_details)
         
     }
-    updatedData.sort((a, b) => new Date(a.orderDate) - new Date(b.orderDate))  //sorting order's as per orderDate
+    updatedData.sort((a, b) => new Date(a.order_date) - new Date(b.order_date))  //sorting order's as per orderDate
     const { taxPer, iDealMarCom } = state;
     let subTotal = 0
     for (let i of updatedData) {
@@ -136,7 +143,7 @@ const handleDownloadPDF = async () => {
         heightLeft -= pdfHeight;
     }
 
-    pdf.save("Invoice.pdf");
+    pdf.save(`${store_name}Invoice.pdf`);
     navigate('/home');
 };
 
@@ -209,7 +216,7 @@ const handleDownloadPDF = async () => {
                             <tbody>
                                 {updatedData.map((item, id) =>
                                     <tr className='table-bg' key={id}>
-                                        <td>{new Date(item.orderDate).toLocaleString('en-CA', {
+                                        <td>{new Date(item.order_date).toLocaleString('en-CA', {
                                             year: 'numeric',
                                             month: '2-digit',
                                             day: '2-digit',
@@ -218,11 +225,13 @@ const handleDownloadPDF = async () => {
                                             second: '2-digit',
                                             hour12: false
                                         }).replace(',', '')}</td>
+                                        {/* <td>{item.orderDate}</td> */}
                                         <td>{item.orderID}</td>
                                         <td>{item.product}</td>
                                         <td>{item.quantity}</td>
-                                        <td>{item.unit_price}</td>
-                                        <td>{item.discount_price * item.quantity}</td>
+                                        <td>{item.discount_price}</td>
+                                        {/* <td>{item.discount_price * item.quantity}</td> */}
+                                        <td>{item.itemTotal}</td>
                                     </tr>
                                 )}
                             </tbody>

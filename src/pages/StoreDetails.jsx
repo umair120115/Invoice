@@ -1,10 +1,11 @@
 import React, { useEffect, useState ,useContext} from "react"
 import api from "../api"
-import AuthNavbar from "../Navbar/AuthenticatedNavbar";
+// import AuthNavbar from "../Navbar/AuthenticatedNavbar";
 import Navbar from "../Navbar/Navbar";
 import { useNavigate,useLocation ,Link} from "react-router-dom";
 // import '../styles/storeDetails.css'
 import '../styles/NewStoreDetails.css'
+// import Navbar from "../Navbar/Navbar";
 
 function StoreDetails(){
     const location = useLocation();
@@ -36,19 +37,26 @@ function StoreDetails(){
     const handleQuery=async(e)=>{
         e.preventDefault();
         const formdata= new FormData();
-        formdata.append("store_id", store.storeid);
+        formdata.append("store_id", store.id);
       
         formdata.append("start_date",start_date);
         
         formdata.append("end_date",end_date);
-      
+
+        
         const response = await api.post('/api/stores/store/details/',formdata,{
             headers:{"Content-Type":"multipart/form-data"},
         }) 
+        if ( response.data.status===300){
+            alert("No order's found!");
+            navigate('/storedetails',{"state":store});
+            return;
+        }else {
         setOrders(response.data.results);
+        console.log(response.data.results);
         
         // navigate('/invoice',{"state":response.data.results});
-        navigate('/invoice',{"state":response.data.results})
+        navigate('/invoice',{"state":response.data.results})}
         // console.log(response.data.results)
         
 
@@ -56,7 +64,7 @@ function StoreDetails(){
     const handleRegenerate=async(start_date,end_date)=>{
         
         const formdata=new FormData();
-        formdata.append("store_id",store.storeid)
+        formdata.append("store_id",store.id)
         formdata.append("start_date",start_date)
         formdata.append("end_date",end_date)
         const res = await api.post("/api/stores/store/details/",formdata,{
@@ -70,9 +78,11 @@ function StoreDetails(){
         SetsearchTerm(event.target.value)
         const res = await api.get(`/api/stores/store/invoices/?storeid${store.storeid}/?search=${searchTerm}`);
         SetsearchInvoiceResults(res.data.results || []);
+        
         // console.log(res.data.results);
 
     }
+    
     
 
     return (
