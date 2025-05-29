@@ -1,5 +1,6 @@
 import React from "react";
 import AuthNavbar from "../Navbar/AuthenticatedNavbar";
+import Navbar from "../Navbar/Navbar";
 import { useState, useEffect } from "react"; // Keep useState and useEffect
 import api from "../api";
 import '../styles/NewStores.css'; // Using the one specified in your code
@@ -41,14 +42,15 @@ function NewStoresList() {
     const handleSearchChange = async (event) => {
         setSearchTerm(event.target.value);
         const res = await api.get(`/api/stores/admin/all/?search=${searchTerm}`)
-        setsearchResult(res.data.results || [])
-        // console.log(searchResult)
+        setsearchResult(res.data.results || 'No search result found!')
+        console.log(res.data.results);
 
     };
 
     return (
         <>
-            <AuthNavbar />
+            {/* <AuthNavbar /> */}
+            <Navbar/>
 
         
             <div className="search-container" style={{ padding: '20px', textAlign: 'center' }}>

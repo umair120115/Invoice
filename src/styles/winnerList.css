@@ -1,105 +1,215 @@
-/* WinnerDetails.css */
+/* winnerList.css */
 
-/* General container styling (optional, if you want to center or add margins to the whole component) */
+/* General container styling */
 .winner-details-container {
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
-  max-width: 1200px; /* Adjust as needed */
-  margin: 0 auto; /* Centers the container */
+  max-width: 95%; /* Use percentage for better responsiveness */
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Styling for the heading */
-.winner-details-container h3 {
-  text-align: center;
-  color: #2c3e50; /* Dark blue-grey */
-  margin-bottom: 25px;
-  font-size: 2em; /* Larger font size for the heading */
-  border-bottom: 2px solid #3498db; /* Blue accent line */
-  padding-bottom: 10px;
-  display: inline-block; /* Allows border to only span the text width if centered */
-}
-
-/* Center the heading container if you want the border to be centered too */
+/* Heading container and heading */
 .heading-container {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .heading-container h3 {
-  color: #2c3e50;
-  font-size: 2em;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 10px;
-  display: inline-block; /* Important for the border to wrap the text */
-  margin-bottom: 0; /* Reset default margin if parent handles spacing */
+  color: #1a253c; /* Darker, more professional blue */
+  font-size: 2.2em;
+  font-weight: 600;
+  border-bottom: 3px solid #007bff; /* Primary action color */
+  padding-bottom: 12px;
+  display: inline-block;
+  margin-bottom: 0;
 }
 
+/* Selection Controls Container */
+.selection-controls {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  gap: 10px; /* Space between buttons */
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* General style for control buttons */
+.control-button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  color: white;
+}
+
+.control-button:hover {
+  transform: translateY(-1px);
+}
+
+.control-button:active {
+  transform: translateY(0px);
+}
+
+/* Specific button styles */
+.select-expired-button {
+  background-color: #ffc107; /* Amber */
+  color: #212529;
+}
+.select-expired-button:hover {
+  background-color: #e0a800;
+}
+
+.select-blnt-button {
+  background-color: #17a2b8; /* Info Blue */
+}
+.select-blnt-button:hover {
+  background-color: #138496;
+}
+
+.delete-selected-button {
+  background-color: #dc3545; /* Crimson / Danger Red */
+}
+.delete-selected-button:hover {
+  background-color: #c82333;
+}
+
+.delete-selected-button:disabled {
+  background-color: #adb5bd; /* Grey for disabled */
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* Table wrapper for responsiveness */
+.table-responsive-wrapper {
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+    width: 100%;
+    border-radius: 8px; /* Match table border radius */
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07); /* Consistent shadow */
+}
 
 /* Table styling */
 .winner-details-container table {
   width: 100%;
-  border-collapse: collapse; /* Removes default spacing between cells */
-  margin-top: 20px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  border-radius: 8px; /* Rounded corners for the table */
-  overflow: hidden; /* Ensures box-shadow and border-radius apply correctly */
+  border-collapse: collapse;
+  margin-top: 0; /* Removed margin as wrapper handles it */
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures border-radius clips content */
 }
 
 /* Table header styling */
 .winner-details-container th {
-  background-color: #3498db; /* Primary blue */
-  color: #ffffff; /* White text */
-  padding: 15px;
+  background-color: #007bff; /* Primary blue */
+  color: #ffffff;
+  padding: 16px 18px;
   text-align: left;
-  font-weight: bold;
-  text-transform: uppercase; /* Uppercase header text */
-  letter-spacing: 0.5px;
+  font-weight: 600; /* Slightly bolder */
+  text-transform: capitalize; /* Softer than uppercase */
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid #0056b3; /* Darker shade for border */
 }
+
+/* Checkbox cell specific styling */
+.winner-details-container th.checkbox-cell,
+.winner-details-container td.checkbox-cell {
+  width: 40px; /* Fixed width for checkbox column */
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 10px;
+}
+.winner-details-container th.checkbox-cell input[type="checkbox"],
+.winner-details-container td.checkbox-cell input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #007bff; /* Modern way to color checkboxes */
+}
+
 
 /* Table body cells styling */
 .winner-details-container td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #ecf0f1; /* Light grey border for rows */
-  color: #555; /* Darker grey for text for better readability */
+  padding: 14px 18px;
+  border-bottom: 1px solid #dee2e6; /* Lighter grey border */
+  color: #495057; /* Softer text color */
+  vertical-align: middle; /* Align content vertically */
 }
 
-/* Alternating row colors for better readability */
+/* Alternating row colors - subtle */
 .winner-details-container tbody tr:nth-child(even) {
-  background-color: #f8f9fa; /* Very light grey for even rows */
+  background-color: #f8f9fa;
 }
 
 .winner-details-container tbody tr:nth-child(odd) {
-  background-color: #ffffff; /* White for odd rows */
+  background-color: #ffffff;
 }
 
 /* Hover effect for table rows */
 .winner-details-container tbody tr:hover {
-  background-color: #e9ecef; /* Slightly darker grey on hover */
-  cursor: default; /* Indicates it's not clickable unless you add functionality */
+  background-color: #e9ecef;
 }
 
-/* Specific column styling (optional) */
-.winner-details-container td:first-child { /* Sr.No. column */
+/* Selected row styling */
+.winner-details-container tbody tr.selected {
+  background-color: #cce5ff !important; /* A light blue for selected rows, !important to override nth-child */
+  font-weight: 500; /* Slightly bolder text for selected row */
+}
+.winner-details-container tbody tr.selected td {
+  color: #004085; /* Darker blue text for selected row */
+}
+
+
+/* Loading and No Data Messages */
+.loading-message,
+.no-data-message {
   text-align: center;
-  font-weight: bold;
-  color: #3498db; /* Blue color for Sr.No. */
+  padding: 40px 20px;
+  font-size: 1.2em;
+  color: #6c757d;
 }
 
-/* Responsive adjustments for smaller screens */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .winner-details-container table {
-    display: block;
-    overflow-x: auto; /* Allows horizontal scrolling on small screens */
-    white-space: nowrap; /* Prevents table cells from wrapping */
+  .winner-details-container {
+    max-width: 100%;
+    padding: 15px;
+  }
+  .heading-container h3 {
+    font-size: 1.8em;
+  }
+  .control-button {
+    padding: 8px 14px;
+    font-size: 0.9em;
+    flex-basis: calc(50% - 5px); /* Two buttons per row on smaller screens */
+  }
+  .delete-selected-button {
+    flex-basis: 100%; /* Full width for delete button on small screens */
   }
 
   .winner-details-container th,
   .winner-details-container td {
-    white-space: nowrap; /* Ensure cell content doesn't wrap on small screens */
+    padding: 12px 10px; /* Reduce padding on smaller cells */
+    font-size: 0.9em; /* Smaller font for table content */
+    white-space: nowrap; /* Keep content on one line if table scrolls */
   }
+}
 
-  .winner-details-container h3 {
-    font-size: 1.5em;
-  }
+@media (max-width: 480px) {
+    .selection-controls {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+    .control-button {
+        flex-basis: auto; /* Reset flex-basis */
+        width: 100%; /* Full width for all control buttons */
+    }
 }

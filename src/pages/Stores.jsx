@@ -24,7 +24,8 @@ function StoresList(){
     }
     
     return <>
-    <AuthNavbar />
+    {/* <AuthNavbar /> */}
+    <Navbar/>
       <div className="stores-container">
         {stores.map((store) => (
           <div key={store.storeid} className="store-card">

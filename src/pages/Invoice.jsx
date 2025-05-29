@@ -5,6 +5,7 @@ import html2canvas from "html2canvas";
 import { useLocation,useNavigate } from 'react-router-dom';
 import api from '../api';
 import Logo from '../assets/iDealMartLogoNew.png'
+
 const Home = () => {
     const [state, setState] = useState({
         taxPer: 13,
@@ -14,12 +15,9 @@ const Home = () => {
     
     const location=useLocation();
     const [invoice,setInvoice]= useState([])
-    // const productDetails = location.state 
     const  productDetails= location.state //All products having status confirmed or commpleted!
-    // console.log(productDetails)
-    // console.log(location.state)
-    const store_email =productDetails[0].store_email
-    const owner =productDetails[0].store_owner
+    const store_email =productDetails[0].store_email || 'NA'
+    const owner =productDetails[0].store_owner || 'NA'
     const store_name=productDetails[0].store
     const updatedData = productDetails.map((item) => ({
         // commission: item.commission,
@@ -94,20 +92,54 @@ const Home = () => {
     let payAmountWithCom=parseFloat(subTotal)+parseFloat(taxAmountFixed) - parseFloat(fixedIdealMartComAmt)
     let fixedPayAmount = payAmountWithCom.toFixed(2);
 
-    const handleDownloadPDF = () => {
-        const element = document.getElementById("pdf-content");
-        html2canvas(element).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF("p", "mm", "a4");
-            pdf.addImage(imgData, "PNG", 16, 16, 190, 0);
-            pdf.setFontSize(20);
-            pdf.setFontSize(24);
-            // pdf.text("Hello, PDF!", 10, 20);
-            pdf.setFontSize(16);
-            pdf.save("Invoice.pdf");
-            navigate("/home");
-        });
-    };
+    // const handleDownloadPDF = () => {
+    //     const element = document.getElementById("pdf-content");
+    //     html2canvas(element).then((canvas) => {
+    //         const imgData = canvas.toDataURL("image/png");
+    //         const pdf = new jsPDF("p", "mm", "a4");
+    //         pdf.addImage(imgData, "PNG", 16, 16, 190, 0);
+    //         pdf.setFontSize(20);
+    //         pdf.setFontSize(24);
+    //         // pdf.text("Hello, PDF!", 10, 20);
+    //         pdf.setFontSize(16);
+    //         pdf.save("Invoice.pdf");
+    //         navigate("/home");
+    //     });
+    // };
+    
+
+const handleDownloadPDF = async () => {
+    const element = document.getElementById("pdf-content");
+    const canvas = await html2canvas(element, { scale: 2 });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pdfWidth;
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    // First page
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
+
+    // Add more pages if necessary
+    while (heightLeft > 0) {
+        position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+    }
+
+    pdf.save("Invoice.pdf");
+    navigate('/home');
+};
+
   
     
     const iDealMarComChange = (event) => {

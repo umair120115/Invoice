@@ -1,9 +1,11 @@
 import React, { useEffect, useState ,useContext} from "react"
 import api from "../api"
 import AuthNavbar from "../Navbar/AuthenticatedNavbar";
+import Navbar from "../Navbar/Navbar";
 import { useNavigate,useLocation ,Link} from "react-router-dom";
 // import '../styles/storeDetails.css'
 import '../styles/NewStoreDetails.css'
+
 function StoreDetails(){
     const location = useLocation();
     const store= location.state
@@ -23,9 +25,8 @@ function StoreDetails(){
     );
 
     const getInvoices=async()=>{
-        const res = await api.get(`/api/stores/store/invoices/${store.storeid}`)
-        SetInvoices(res.data.results);
-        console.log(res.data.results);
+        const res = await api.get(`/api/stores/store/invoices/?storeid=${store.id}`)
+        SetInvoices(res.data.invoices);
 
     }
     
@@ -67,15 +68,17 @@ function StoreDetails(){
     }
     const handleSearchInvoice=async(event)=>{
         SetsearchTerm(event.target.value)
-        const res = await api.get(`/api/stores/store/invoices/${store.storeid}/?search=${searchTerm}`);
+        const res = await api.get(`/api/stores/store/invoices/?storeid${store.storeid}/?search=${searchTerm}`);
         SetsearchInvoiceResults(res.data.results || []);
         // console.log(res.data.results);
 
     }
     
 
-    return <>
-    <AuthNavbar/>
+    return (
+        <>
+    
+    <Navbar/>
     <div className="storeinfo">
         <p><strong>Store Name</strong>: {store.name}</p>
         <p><strong>Address</strong>: {store.address}</p>
@@ -161,7 +164,7 @@ function StoreDetails(){
             </thead>
         
             
-            <tbody>
+            {/* <tbody>
                 {
                     invoices.map(
                         (invoice,index)=>{
@@ -178,7 +181,29 @@ function StoreDetails(){
                         }
                     )
                 }
-            </tbody>
+            </tbody> */}
+            <tbody>
+    {
+        Array.isArray(invoices) && invoices.length > 0 ? (
+            invoices.map((invoice, index) => (
+                <tr key={invoice.id || `invoice-${index}`}>
+                    <td>{index + 1}</td>
+                    <td>{invoice.invoice_no}</td>
+                    <td>{invoice.start_date}</td>
+                    <td>{invoice.end_date}</td>
+                    <td>
+                        <button type="submit" onClick={() => handleRegenerate(invoice.start_date, invoice.end_date)}>
+                            Regenerate
+                        </button>
+                    </td>
+                </tr>
+            ))
+        ) : (
+            <tr><td colSpan="5">No invoices found.</td></tr>
+        )
+    }
+</tbody>
+
         </table>
        
     </div>
@@ -189,7 +214,7 @@ function StoreDetails(){
         
 
    
-</>    
+      </>      )  
 }
 
 export default StoreDetails;

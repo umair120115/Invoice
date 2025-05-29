@@ -1,6 +1,6 @@
 
 import api from "../api";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { AUTH_TOKEN } from "../constants"; // Make sure to define AUTH_TOKEN in constants.js
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
@@ -12,6 +12,12 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+        // Auto-logout when landing on login page
+        localStorage.removeItem(AUTH_TOKEN);
+        // Optional: clear cookies/sessionStorage if needed
+    }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,7 +31,7 @@ function Login() {
 
     try {
       
-      const response = await api.post("/api/accounts/login/", data);
+      const response = await api.post("/api/accounts/admin/login/", data);
 
       if (response.status === 200) {
         //storing user's cred 
