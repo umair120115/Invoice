@@ -1,0 +1,238 @@
+/* src/NewStoreDetails.css - ENHANCED DESIGN */
+
+:root {
+    --primary-color: #007bff; /* Blue */
+    --primary-dark: #0056b3;
+    --accent-color: #28a745; /* Green for success/actions */
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --border-color: #e9ecef;
+    --shadow-light: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--light-bg);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-wrapper {
+    padding: 40px 20px;
+}
+
+/* --- Store Info Block --- */
+.store-info-block h2 {
+    text-align: center;
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.storeinfo {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 25px;
+    margin: 20px auto 40px auto;
+    max-width: 700px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.storeinfo p {
+    margin: 0;
+    line-height: 1.5;
+    color: #555;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 5px;
+}
+
+.storeinfo p:last-child {
+    border-bottom: none;
+}
+
+.storeinfo p strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+
+/* --- Shared Form & Section Card Styling --- */
+.section-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-light);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-heading {
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+/* --- New Invoice Form --- */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    box-shadow: none; /* Remove duplicate shadow from .section-card */
+}
+
+form label {
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #495057;
+    width: 100%; /* Take full form width */
+    text-align: left;
+    max-width: 400px; /* Limit input width for clean look */
+}
+
+form input[type="date"] {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px; /* Pill shape */
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 25px;
+    transition: background-color 0.3s ease, transform 0.1s;
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+
+/* --- Recent Invoices Section --- */
+.recent-invoices-section {
+    padding-top: 20px;
+}
+
+.search-form-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.search-input {
+    padding: 10px;
+    width: 65%;
+    min-width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+.search-btn {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #1e7e34;
+}
+
+/* --- Invoice Table Styling --- */
+.table-title {
+    font-size: 1.3em;
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.invoice-table-wrapper {
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.95em;
+}
+
+.invoice-table thead th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.invoice-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    color: #333;
+    text-align: left;
+}
+
+.invoice-table tbody tr:hover {
+    background-color: #eef5ff; /* Subtle hover color */
+}
+
+.invoice-table td:last-child {
+    text-align: center;
+}
+
+.regenerate-btn {
+    background-color: #ffc107; /* Yellow accent */
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.regenerate-btn:hover {
+    background-color: #e0a800;
+}
+
+.no-results {
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+}

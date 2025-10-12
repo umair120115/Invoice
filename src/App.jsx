@@ -7,6 +7,9 @@ import Login from './components/Login';
 import WinnerDetails from './pages/WinnersList';
 import ProtectedRoute from './components/ProtectedRoute';
 import StoreDetails from './pages/StoreDetails';
+// import NewInvoice from './pages/NewInvoices';
+import Invoice from './pages/NewInvoices';
+import NewStoreDetails from './pages/NewStoreDetails';
 
 
 function App() {
@@ -31,8 +34,8 @@ function App() {
            
          
        
-            <Route path='/storedetails' element={<ProtectedRoute><StoreDetails/></ProtectedRoute>}/>
-            <Route path='/invoice' element={<ProtectedRoute><Home/></ProtectedRoute>}/> 
+            <Route path='/storedetails' element={<ProtectedRoute><NewStoreDetails/></ProtectedRoute>}/>
+            <Route path='/invoice' element={<ProtectedRoute><Invoice/></ProtectedRoute>}/> 
             </Routes> 
           
         
