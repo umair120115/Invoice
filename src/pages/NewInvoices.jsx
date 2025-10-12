@@ -3,10 +3,11 @@
 
 
 
+
 import { useState, useEffect } from 'react'
 import '../styles/NewInvoice.css'
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import 'jspdf-autotable';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../api';
 import Logo from '../assets/iDealMartLogoNew.png'
@@ -14,13 +15,13 @@ import Logo from '../assets/iDealMartLogoNew.png'
 const Invoice = () => {
     const [state, setState] = useState({
         taxPer: 13,
-        iDealMarCom: 10, // Changed default to 10
+        iDealMarCom: 10,
     })
     const navigate = useNavigate();
     
     const location = useLocation();
     const [invoice, setInvoice] = useState([])
-    const [itemCommissions, setItemCommissions] = useState({}) // Store individual item commission amounts (editable)
+    const [itemCommissions, setItemCommissions] = useState({})
     const productDetails = location.state
   
     const store_email = productDetails[0].store_email
@@ -40,12 +41,12 @@ const Invoice = () => {
         tax: item.tax,
         order_date: item.orderDate
     }))
+    // console.log("Updated Data:", productDetails);
 
     useEffect(() => {
         getInvoice();
     }, []);
 
-    // Recalculate item commissions when iDealMarCom changes
     useEffect(() => {
         if (updatedData.length > 0) {
             const recalculatedCommissions = {}
@@ -73,14 +74,6 @@ const Invoice = () => {
 
     const { taxPer, iDealMarCom } = state;
 
-    // Calculate the suggested commission amount using current iDealMarCom percentage
-    const calculateSuggestedCommission = (item) => {
-        const priceDifference = parseFloat(item.unit_price) - parseFloat(item.discount_price)
-        const commissionAmount = (priceDifference * iDealMarCom / 100) * parseInt(item.quantity)
-        return commissionAmount.toFixed(2)
-    }
-
-    // Calculate totals
     let subTotal = 0
     let totalItemCommission = 0
     
@@ -105,77 +98,174 @@ const Invoice = () => {
     
     let taxAmount = ((parseFloat(subTotal) * taxPer) / 100)
     let taxAmountFixed = taxAmount.toFixed(2)
-    let iDealMartCommAmount = (parseFloat(subTotal) + parseFloat(taxAmountFixed)) * (iDealMarCom / 100)
-    let fixedIdealMartComAmt = iDealMartCommAmount.toFixed(2)
     let totalCommission = parseFloat(totalItemCommission)
     let payAmountWithCom = parseFloat(subTotal) + parseFloat(taxAmountFixed) - totalCommission
     let fixedPayAmount = payAmountWithCom.toFixed(2);
 
     const handleDownloadPDF = async () => {
-        const element = document.getElementById("pdf-content");
-        
-        // Hide all input fields before capturing
-        const inputs = element.querySelectorAll('input');
-        const inputValues = [];
-        inputs.forEach((input, index) => {
-            inputValues.push(input.value);
-            const span = document.createElement('span');
-            span.textContent = '$' + input.value;
-            span.style.fontWeight = 'normal';
-            input.parentNode.replaceChild(span, input);
-        });
-
-        const canvas = await html2canvas(element, { 
-            scale: 2,
-            useCORS: true,
-            logging: false,
-            windowHeight: element.scrollHeight,
-            windowWidth: element.scrollWidth
-        });
-
-        const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4");
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        let yPos = 20;
 
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        let heightLeft = imgHeight;
-        let position = 0;
-
-        // Add first page
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        // Add additional pages if content exceeds one page
-        while (heightLeft > 0) {
-            position -= pdfHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-            heightLeft -= pdfHeight;
+        // Add logo
+        try {
+            pdf.addImage(Logo, "PNG", 15, yPos, 40, 15);
+        } catch (e) {
+            console.log("Logo not added:", e);
         }
-        const now = new Date();
-        const dateStamp = now.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
 
+        // Header
+        pdf.setFontSize(24);
+        pdf.setTextColor(64, 64, 149);
+        pdf.text("INVOICE", pageWidth - 15, yPos + 10, { align: "right" });
+        
+        yPos += 20;
+        
+        // Company details
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text("88 Colgate Ave", 15, yPos);
+        yPos += 5;
+        pdf.text("Toronto, ON M4M 3L1", 15, yPos);
+        yPos += 10;
+        
+        // Submitted date
+        pdf.setFontSize(10);
+        pdf.setTextColor(210, 90, 110);
+        pdf.text(`Submitted On ${formatDateDDMMYYYY(invoice.created_at)}`, 15, yPos);
+        yPos += 10;
 
-        pdf.save(`${store_name}_${dateStamp}__Invoice.pdf`);
+        // Invoice details table - CORRECTED
+        pdf.autoTable({
+            startY: yPos,
+            head: [['Invoice For', 'Payable to', 'Invoice #', 'Due Date']],
+            body: [[
+                store_name,
+                store_email,
+                invoice.invoice_no || 'N/A',
+                invoice.end_date || 'N/A'
+            ]],
+            theme: 'grid',
+            headStyles: {
+                fillColor: [64, 64, 149],
+                textColor: [255, 255, 255],
+                fontSize: 10,
+                fontStyle: 'bold'
+            },
+            bodyStyles: {
+                fontSize: 9
+            },
+            margin: { left: 15, right: 15 }
+        });
 
-        // Restore input fields after PDF generation
-        const spans = element.querySelectorAll('td > span');
-        spans.forEach((span, index) => {
-            if (inputValues[index] !== undefined) {
-                const input = document.createElement('input');
-                input.type = 'number';
-                input.value = inputValues[index];
-                input.step = '0.01';
-                input.min = '0';
-                input.className = 'commission-input';
-                input.onchange = (e) => handleItemCommissionChange(index, e.target.value);
-                span.parentNode.replaceChild(input, span);
+        yPos = pdf.lastAutoTable.finalY + 10;
+
+        // Items table data
+        const tableData = updatedData.map((item, id) => {
+            const orderDate = new Date(item.order_date).toLocaleString('en-CA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).replace(',', '');
+
+            return [
+                orderDate,
+                item.orderID,
+                item.product,
+                item.quantity,
+                `$${parseFloat(item.unit_price).toFixed(2)}`,
+                `$${parseFloat(item.discount_price).toFixed(2)}`,
+                `$${parseFloat(item.itemTotal).toFixed(2)}`,
+                `$${parseFloat(itemCommissions[id] || 0).toFixed(2)}`
+            ];
+        });
+
+        // Items table - CORRECTED
+        pdf.autoTable({
+            startY: yPos,
+            head: [['Date', 'Order #', 'Name', 'Qty', 'Unit Price', 'Disc. Price', 'Total', 'Comm Amount']],
+            body: tableData,
+            theme: 'striped',
+            headStyles: {
+                fillColor: [64, 64, 149],
+                textColor: [255, 255, 255],
+                fontSize: 9,
+                fontStyle: 'bold'
+            },
+            bodyStyles: {
+                fontSize: 8
+            },
+            alternateRowStyles: {
+                fillColor: [245, 245, 245]
+            },
+            margin: { left: 15, right: 15 },
+            columnStyles: {
+                0: { cellWidth: 30 },
+                1: { cellWidth: 20 },
+                2: { cellWidth: 'auto' },
+                3: { cellWidth: 15 },
+                4: { cellWidth: 20 },
+                5: { cellWidth: 20 },
+                6: { cellWidth: 20 },
+                7: { cellWidth: 22 }
+            },
+            didDrawPage: (data) => {
+                const pageCount = pdf.internal.getNumberOfPages();
+                pdf.setFontSize(8);
+                pdf.setTextColor(128, 128, 128);
+                pdf.text(
+                    `Page ${pdf.internal.getCurrentPageInfo().pageNumber} of ${pageCount}`,
+                    pageWidth / 2,
+                    pageHeight - 10,
+                    { align: 'center' }
+                );
             }
         });
+
+        // Summary section
+        yPos = pdf.lastAutoTable.finalY + 10;
+
+        if (yPos > pageHeight - 60) {
+            pdf.addPage();
+            yPos = 20;
+        }
+
+        const summaryX = pageWidth - 70;
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        
+        pdf.text(`Subtotal:`, summaryX, yPos);
+        pdf.text(`$${subTotal.toFixed(2)}`, pageWidth - 15, yPos, { align: 'right' });
+        yPos += 7;
+        
+        pdf.text(`Tax (${taxPer}%):`, summaryX, yPos);
+        pdf.text(`$${taxAmountFixed}`, pageWidth - 15, yPos, { align: 'right' });
+        yPos += 7;
+        
+        pdf.text(`Total Item Commission (${iDealMarCom}% on discounts):`, summaryX - 25, yPos);
+        pdf.text(`$${totalItemCommission.toFixed(2)}`, pageWidth - 15, yPos, { align: 'right' });
+        yPos += 7;
+        
+        pdf.text(`Total Commission:`, summaryX, yPos);
+        pdf.text(`$${totalCommission.toFixed(2)}`, pageWidth - 15, yPos, { align: 'right' });
+        yPos += 10;
+        
+        // Payout amount
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
+        pdf.setTextColor(219, 137, 150);
+        pdf.text(`Payout Amount:`, summaryX, yPos);
+        pdf.text(`$${fixedPayAmount}`, pageWidth - 15, yPos, { align: 'right' });
+
+        // Save PDF
+        const now = new Date();
+        const dateStamp = now.toISOString().slice(0, 10).replace(/-/g, '');
+        pdf.save(`${store_name}_${dateStamp}_Invoice.pdf`);
 
         navigate('/home');
     };
