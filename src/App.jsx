@@ -10,7 +10,7 @@ import StoreDetails from './pages/StoreDetails';
 // import NewInvoice from './pages/NewInvoices';
 import Invoice from './pages/NewInvoices';
 import NewStoreDetails from './pages/NewStoreDetails';
-
+import EmailSenderApp from './pages/EmailSending';
 
 function App() {
   function ResgisterandLogout(){
@@ -35,6 +35,7 @@ function App() {
          
        
             <Route path='/storedetails' element={<ProtectedRoute><NewStoreDetails/></ProtectedRoute>}/>
+            <Route path='/email' element={<ProtectedRoute><EmailSenderApp/></ProtectedRoute>}/>
             <Route path='/invoice' element={<ProtectedRoute><Invoice/></ProtectedRoute>}/> 
             </Routes> 
           
