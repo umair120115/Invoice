@@ -14,6 +14,7 @@ const AuthNavbar = () => {
       <ul className={`navbar-links`}>
         <li><Link to="/winnerlist">Winner List</Link></li>
         <li><Link to="/email"> Email </Link></li>
+        <li><Link to="/updated-mobile"> Mobile Notification </Link></li>
         <li><Link to="/logout">Logout</Link></li>
       </ul>
     </nav>
