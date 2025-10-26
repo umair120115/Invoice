@@ -13,7 +13,8 @@ const MobileNotificationApp = () => {
   const [nextPage, setNextPage] = useState(null);
   const [previousPage, setPreviousPage] = useState(null);
   const [selectAllPages, setSelectAllPages] = useState(false);
-  const [apiUrl] = useState('http://127.0.0.1:8000/');
+//   const [apiUrl] = useState('http://127.0.0.1:8000/');4
+  const [apiUrl] = useState(process.env.VITE_API_URL);
 
   const pageSize = 100;
 

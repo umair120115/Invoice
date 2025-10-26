@@ -13,6 +13,7 @@ import NewStoreDetails from './pages/NewStoreDetails';
 import EmailSenderApp from './pages/EmailSending';
 import MobileNotificationApp from './pages/MobileNotification';
 import UpdatedMobileNotificationApp from './pages/UpdatedMobileNotification';
+import UpdatedMobileNotificationAppI from './pages/UpdtMob';
 function App() {
   function ResgisterandLogout(){
     localStorage.clear();
@@ -39,7 +40,7 @@ function App() {
             <Route path='/email' element={<ProtectedRoute><EmailSenderApp/></ProtectedRoute>}/>
             <Route path='/invoice' element={<ProtectedRoute><Invoice/></ProtectedRoute>}/> 
             <Route path='/mobile' element={<ProtectedRoute><MobileNotificationApp/></ProtectedRoute>}/>
-            <Route path='/updated-mobile' element={<ProtectedRoute><UpdatedMobileNotificationApp/></ProtectedRoute>}/>
+            <Route path='/updated-mobile' element={<ProtectedRoute><UpdatedMobileNotificationAppI/></ProtectedRoute>}/>
             </Routes> 
           
         

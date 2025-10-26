@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Bell, Search, Users, CheckSquare, Square, Send, Filter, X, ChevronLeft, ChevronRight, Loader, MessageSquare, ShoppingCart, AlertCircle, Calendar, TrendingUp } from 'lucide-react';
-import api from '../api';
-import { Navigate } from 'react-router-dom';
+
 const UpdatedMobileNotificationApp = () => {
   const [users, setUsers] = useState([]);
   const [allSelectedUsers, setAllSelectedUsers] = useState(new Map());
@@ -32,7 +31,7 @@ const UpdatedMobileNotificationApp = () => {
       id: 'shopping-session',
       label: 'Items in Cart',
       description: 'Users who have items in their cart!',
-      icon: Calendar,//AlertCircle,
+      icon: Calendar,
       apiEndpoint: '/api/admincontrol/user-shopping-session/',
       color: '#dc2626'
     },
@@ -52,87 +51,62 @@ const UpdatedMobileNotificationApp = () => {
       apiEndpoint: '/api/admincontrol/user-shopping-session/?is_today=true',
       color: '#2563eb'
     },
-    // {
-    //   id: 'high-value',
-    //   label: 'High Value Customers',
-    //   description: 'Users with total orders above ₹10,000',
-    //   icon: TrendingUp,
-    //   apiEndpoint: '/api/admincontrol/high-value-users/',
-    //   color: '#ea580c'
-    // },
-    // {
-    //   id: 'all-users',
-    //   label: 'All Users',
-    //   description: 'All registered users in the system',
-    //   icon: Users,
-    //   apiEndpoint: '/api/admincontrol/all-users/',
-    //   color: '#4b5563'
-    // }
   ];
 
   const currentFilter = filterOptions.find(f => f.id === selectedFilter);
 
   // Fetch users based on selected filter
-  const fetchUsers = useCallback(async (page = 1) => {
+  const fetchUsers = async (page = 1, filterEndpoint) => {
     setLoading(true);
     try {
-      const params = new URLSearchParams({
-        page: page.toString(),
+      // Build the URL properly
+      const endpoint = filterEndpoint;
+      const separator = endpoint.includes('?') ? '&' : '?';
+      const url = `${apiUrl}${endpoint}${separator}page=${page}`;
+      
+      console.log('Fetching from URL:', url); // Debug log
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
-      const endpoint = currentFilter.apiEndpoint;
-      
-      // Mock API call - replace with actual API implementation
-      const response = await api.get(`${endpoint}?${params.toString()}`, {
-        // headers: {
-        //   'Authorization': `Token ${localStorage.getItem('token')}`,
-        //   'Content-Type': 'application/json',
-        // },
-      });
-
-    //   if (!response.ok) {
-    //     throw new Error('Failed to fetch users');
-    //   }
-
-    //   const data = await response.json();
-      
-      setUsers(response.data.results);
-      setTotalCount(response.data.count);
-      setNextPage(response.data.next);
-      setPreviousPage(response.data.previous);
-
-    //   if (totalCount===0){
-    //     alert('No users found for the selected filter!');
-    //     setUsers([]);
-    //     setTotalCount(0);
-    //     setNextPage(null);
-    //     setPreviousPage(null);
-        
-    //   }
-      
-      if (selectAllPages) {
-        const newMap = new Map(allSelectedUsers);
-        response.data.results.forEach(user => {
-          const uniqueKey = user.id;
-          newMap.set(uniqueKey, user);
-        });
-        setAllSelectedUsers(newMap);
+      if (!response.ok) {
+        throw new Error('Failed to fetch users');
       }
+
+      const data = await response.json();
+      
+      console.log('Received data:', data); // Debug log
+      
+      setUsers(data.results);
+      setTotalCount(data.count);
+      setNextPage(data.next);
+      setPreviousPage(data.previous);
     } catch (error) {
       console.error('Error fetching users:', error);
       alert('Failed to fetch users. Please check your API configuration.');
     }
     setLoading(false);
-  }, [apiUrl, selectAllPages, allSelectedUsers, currentFilter]);
+  };
 
+  // Reset when filter changes
   useEffect(() => {
+    console.log('Filter changed to:', selectedFilter); // Debug log
     setCurrentPage(1);
     setAllSelectedUsers(new Map());
     setSelectAllPages(false);
+    setUsers([]); // Clear users immediately
   }, [selectedFilter]);
 
+  // Fetch users when page or filter changes
   useEffect(() => {
-    fetchUsers(currentPage);
+    if (currentFilter) {
+      console.log('Fetching with filter:', currentFilter.apiEndpoint); // Debug log
+      fetchUsers(currentPage, currentFilter.apiEndpoint);
+    }
   }, [currentPage, selectedFilter]);
 
   const getUserKey = (user) => {
@@ -189,21 +163,28 @@ const UpdatedMobileNotificationApp = () => {
 
     setLoading(true);
     const newMap = new Map();
-    let page = 1;
     const maxPages = Math.ceil(totalCount / pageSize);
 
     try {
       const endpoint = currentFilter.apiEndpoint;
       
-      for (page = 1; page <= maxPages; page++) {
-        const params = new URLSearchParams({
-          page: page.toString(),
+      for (let page = 1; page <= maxPages; page++) {
+        const separator = endpoint.includes('?') ? '&' : '?';
+        const url = `${apiUrl}${endpoint}${separator}page=${page}`;
+
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
 
-        const response = await api.get(`${endpoint}?${params.toString()}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch users');
+        }
 
-        // const data = await response.json();
-        response.data.results.forEach(user => {
+        const data = await response.json();
+        data.results.forEach(user => {
           newMap.set(getUserKey(user), user);
         });
 
@@ -259,20 +240,19 @@ const UpdatedMobileNotificationApp = () => {
 
     try {
       setLoading(true);
-      const response = await api.post(`/api/admincontrol/send-fcm-notification/`, notificationData
-        // method: 'POST',
-        // headers: {
-        //   'Authorization': `Token ${localStorage.getItem('token')}`,
-        //   'Content-Type': 'application/json',
-        // },
-        // body: JSON.stringify(notificationData),
-      );
+      const response = await fetch(`${apiUrl}/api/admincontrol/send-fcm-notification/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${localStorage.getItem('auth_token')}`,
+        },
+        body: JSON.stringify(notificationData),
+      });
 
-    //   const result = await response.json();
-    console.log(response.status)
+      const result = await response.json();
       
-      if (response.status===200) {
-        alert(response.message || `Notification sent to ${userIds.length} users successfully!`);
+      if (response.ok) {
+        alert(result.message || `Notification sent to ${userIds.length} users successfully!`);
         setTitle('');
         setMessage('');
         setAllSelectedUsers(new Map());
@@ -387,7 +367,7 @@ const UpdatedMobileNotificationApp = () => {
             <div style={styles.usersList}>
               {loading ? (
                 <div style={styles.loadingState}>
-                  <Loader size={48} color="#7c3aed" style={{ animation: 'spin 1s linear infinite' }} />
+                  <Loader size={48} color="#7c3aed" className="spin" />
                   <p>Loading users...</p>
                 </div>
               ) : users.length === 0 ? (
@@ -535,7 +515,7 @@ const UpdatedMobileNotificationApp = () => {
             >
               {loading ? (
                 <>
-                  <Loader size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                  <Loader size={20} className="spin" />
                   Sending...
                 </>
               ) : (
@@ -548,6 +528,16 @@ const UpdatedMobileNotificationApp = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .spin {
+          animation: spin 1s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };
@@ -749,7 +739,6 @@ const styles = {
     transition: 'all 0.15s',
     backgroundColor: '#fff',
   },
-
   userCardSelected: {
     borderColor: '#7c3aed',
     backgroundColor: '#faf5ff',
@@ -804,68 +793,6 @@ const styles = {
     fontSize: '11px',
     color: '#6b7280',
   },
-
-
-
-
-//   userCard: {
-//     display: 'flex',
-//     alignItems: 'flex-start',
-//     gap: '12px',
-//     padding: '16px',
-//     marginBottom: '8px',
-//     border: '2px solid #e5e7eb',
-//     borderRadius: '8px',
-//     cursor: 'pointer',
-//     transition: 'all 0.2s',
-//     backgroundColor: '#fff',
-//   },
-
-//   userCardSelected: {
-//     borderColor: '#7c3aed',
-//     backgroundColor: '#faf5ff',
-//   },
-//   checkbox: {
-//     paddingTop: '2px',
-//   },
-//   userInfo: {
-//     flex: 1,
-//   },
-//   userName: {
-//     fontSize: '16px',
-//     fontWeight: '600',
-//     color: '#1f2937',
-//     marginBottom: '4px',
-//   },
-//   userDetails: {
-//     marginBottom: '8px',
-//   },
-//   userEmail: {
-//     fontSize: '14px',
-//     color: '#7c3aed',
-//   },
-//   noEmail: {
-//     fontSize: '14px',
-//     color: '#9ca3af',
-//     fontStyle: 'italic',
-//   },
-//   userMeta: {
-//     display: 'flex',
-//     gap: '8px',
-//     flexWrap: 'wrap',
-//   },
-//   badge: {
-//     fontSize: '12px',
-//     padding: '4px 10px',
-//     backgroundColor: '#e0e7ff',
-//     color: '#3730a3',
-//     borderRadius: '12px',
-//     fontWeight: '500',
-//   },
-//   phone: {
-//     fontSize: '12px',
-//     color: '#6b7280',
-//   },
   loadingState: {
     textAlign: 'center',
     padding: '60px 20px',
