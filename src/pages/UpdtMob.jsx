@@ -13,7 +13,7 @@ const UpdatedMobileNotificationApp = () => {
   const [previousPage, setPreviousPage] = useState(null);
   const [selectAllPages, setSelectAllPages] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('incomplete-orders');
-  const [apiUrl] = useState('http://127.0.0.1:8000/');
+  const [apiUrl] = useState(import.meta.env.VITE_API_URL);
 
   const pageSize = 180;
 
