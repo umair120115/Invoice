@@ -476,7 +476,7 @@ export default function OrdersDashboard() {
           >
             Completed ({statusCounts.completed})
           </button>
-          <button
+          {/* <button
             style={{
               ...styles.filterButton,
               ...(selectedFilter === 'confirmed' ? styles.filterButtonActive : {})
@@ -493,7 +493,7 @@ export default function OrdersDashboard() {
             onClick={() => setSelectedFilter('ready_to_pickup')}
           >
             Ready to Pickup ({statusCounts.ready_to_pickup})
-          </button>
+          </button> */}
           <button
             style={{
               ...styles.filterButton,
@@ -591,16 +591,16 @@ export default function OrdersDashboard() {
                     <User size={16} style={{color: '#6b7280'}} />
                     <div>
                       <div style={styles.infoLabel}>Customer Email</div>
-                      <div style={styles.infoValue}>{order.user_email}</div>
+                      <div style={styles.infoValue}>{order.user_name}</div>
                     </div>
                   </div>
-                  <div style={styles.infoItem}>
+                  {/* <div style={styles.infoItem}>
                     <Phone size={16} style={{color: '#6b7280'}} />
                     <div>
                       <div style={styles.infoLabel}>Contact</div>
                       <div style={styles.infoValue}>{order.contact_number}</div>
                     </div>
-                  </div>
+                  </div> */}
                   {order.shipping_address.trim() && (
                     <div style={styles.infoItem}>
                       <MapPin size={16} style={{color: '#6b7280'}} />

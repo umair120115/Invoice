@@ -211,7 +211,7 @@ export default function StoreAnalyticsDashboard() {
         </div>
 
         {/* Top Customers */}
-        <div style={styles.chartCard}>
+        {/* <div style={styles.chartCard}>
           <h3 style={styles.chartTitle}>
             <Users size={20} />
             Top Customers by Orders
@@ -232,7 +232,7 @@ export default function StoreAnalyticsDashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Insights Section */}
         <div style={styles.insightsCard}>
