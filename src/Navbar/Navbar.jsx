@@ -4,7 +4,7 @@ import AuthNavbar from './AuthenticatedNavbar';
 import GuestNavbar from './GuestNavbar';
 
 const Navbar = () => {
-  const isAuthenticated = useAuth();
+  const {isAuthenticated, userType} = useAuth();
 
   return isAuthenticated ? <AuthNavbar /> : <GuestNavbar />;
 };

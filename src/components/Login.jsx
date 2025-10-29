@@ -43,7 +43,15 @@ function Login() {
         localStorage.setItem("user_type", response.data.user_type);
         // Add other fields from the DRF response as needed...
 
-        navigate("/home"); // Or your desired protected route
+        const user_type = response.data.user_type;
+        if (user_type === 'admin'){
+          navigate("/home");
+        }
+        else if (user_type === 'storeOwner'){
+          navigate("/storedash");
+        }
+
+        // navigate("/home"); // Or your desired protected route
       } else {
          // Handle non-200 success codes if applicable, though DRF usually uses 200 or errors
          setError(response.data.error || "Login failed. Please try again.");
@@ -70,7 +78,7 @@ function Login() {
 
        
         <div className="welcome-text">
-          <h1>iDealMart Admin!</h1>
+          <h1>Login to !DealMart</h1>
         </div>
 
         {/* Error Message */}

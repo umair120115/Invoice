@@ -14,6 +14,9 @@ import EmailSenderApp from './pages/EmailSending';
 import MobileNotificationApp from './pages/MobileNotification';
 import UpdatedMobileNotificationApp from './pages/UpdatedMobileNotification';
 import UpdatedMobileNotificationAppI from './pages/UpdtMob';
+import StoreDashboard from './pages/StoreownerDashboard';
+import OrdersDashboard from './pages/OrdersDetails';
+import StoreAnalyticsDashboard from './pages/UpdatedOrderDetails';
 function App() {
   function ResgisterandLogout(){
     localStorage.clear();
@@ -41,6 +44,9 @@ function App() {
             <Route path='/invoice' element={<ProtectedRoute><Invoice/></ProtectedRoute>}/> 
             <Route path='/mobile' element={<ProtectedRoute><MobileNotificationApp/></ProtectedRoute>}/>
             <Route path='/updated-mobile' element={<ProtectedRoute><UpdatedMobileNotificationAppI/></ProtectedRoute>}/>
+            <Route path='/storedash' element={<ProtectedRoute><StoreDashboard/></ProtectedRoute>}/>
+            <Route path='/orderdash' element={<ProtectedRoute><OrdersDashboard/></ProtectedRoute>}/>
+            <Route path='/analyticsdash' element={<ProtectedRoute><StoreAnalyticsDashboard/></ProtectedRoute>}/>
             </Routes> 
           
         
