@@ -39,12 +39,37 @@ export default function StoreAnalyticsDashboard() {
   }
 
   // Calculate analytics
-  const analytics = calculateAnalytics(ordersData.orders);
-  const revenueData = getRevenueByMonth(ordersData.orders);
-  const statusData = getStatusDistribution(ordersData.orders);
-  const productData = getTopProducts(ordersData.orders);
-  const dailyOrdersData = getDailyOrders(ordersData.orders);
-  const customerData = getTopCustomers(ordersData.orders);
+//   const analytics = calculateAnalytics(ordersData.orders);
+//   const revenueData = getRevenueByMonth(ordersData.orders);
+//   const statusData = getStatusDistribution(ordersData.orders);
+//   const productData = getTopProducts(ordersData.orders);
+//   const dailyOrdersData = getDailyOrders(ordersData.orders);
+//   const customerData = getTopCustomers(ordersData.orders);
+
+
+
+  // Add this function after your useEffect
+const filterOrdersByTimeRange = (orders, range) => {
+    if (range === 'all') return orders;
+    
+    const now = new Date();
+    const daysAgo = range === '7days' ? 7 : 30;
+    const cutoffDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+    
+    return orders.filter(order => new Date(order.created_at) >= cutoffDate);
+  };
+  
+  // Then in your component, replace this line:
+  // const analytics = calculateAnalytics(ordersData.orders);
+  
+  // With these lines:
+  const filteredOrders = filterOrdersByTimeRange(ordersData.orders, timeRange);
+  const analytics = calculateAnalytics(filteredOrders);
+  const revenueData = getRevenueByMonth(filteredOrders);
+  const statusData = getStatusDistribution(filteredOrders);
+  const productData = getTopProducts(filteredOrders);
+  const dailyOrdersData = getDailyOrders(filteredOrders);
+  const customerData = getTopCustomers(filteredOrders);
 
   return (
     <>
@@ -454,7 +479,8 @@ function renderCustomLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent
 const styles = {
   container: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    // background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background:'linear-gradient(135deg, #ffffff 0%, #ffffff 100%',
     padding: '32px 24px',
   },
   loadingText: {
@@ -475,19 +501,21 @@ const styles = {
   title: {
     fontSize: '36px',
     fontWeight: 'bold',
-    color: '#fff',
+    // color: '#fff',
+    color:'black',
     margin: 0,
     textShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   subtitle: {
     fontSize: '16px',
-    color: 'rgba(255,255,255,0.9)',
+    // color: 'rgba(255,255,255,0.9)',
+    color:'black',
     marginTop: '8px',
   },
   timeRangeButtons: {
     display: 'flex',
     gap: '8px',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: 'rgba(230, 153, 153, 0.81)',
     padding: '4px',
     borderRadius: '12px',
     backdropFilter: 'blur(10px)',

@@ -1,111 +1,110 @@
-import React from 'react';
-import { Link ,useLocation} from 'react-router-dom';
-import '../styles/Navbar.css'
+// ---------------------------------------------------------------------------
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+// import '../styles/Navbar.css'; // <-- TRIPLE-CHECK THIS PATH!
 import useAuth from './NavAuth';
-import Logo from '../assets/logoidealmart.png'
+import Logo from '../assets/logoidealmart.png'; // <-- TRIPLE-CHECK THIS PATH!
+import '../styles/Navbar.css'
 const AuthNavbar = () => {
-  const {isAuthenticated, userType} = useAuth();
-  const location =useLocation();
-  if (location.pathname==='/home' && userType ==='admin'){
-    return (
-      <nav className="navbar">
-      <div className="navbar-logo">
-      <img src={Logo} alt="iDealMart Logo" style={{ height: '40px' }} />
-      <p className={'texts-navbar'}>Home</p>
-      </div>
-     
-      <ul className={`navbar-links`}>
-        <li><Link to="/winnerlist">Winner List</Link></li>
-        <li><Link to="/email"> Email </Link></li>
-        <li><Link to="/updated-mobile"> Mobile Notification </Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
-    </nav>
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { userType } = useAuth();
+  const { pathname } = useLocation();
 
-    )
-  }
-  else if ( location.pathname==='/winnerlist' && userType ==='admin'){
-    return (
-      <nav className="navbar">
-      <div className="navbar-logo">
-        <img src={Logo} alt="iDealMart Logo" style={{ height: '40px' }} />
-        
-      </div>
-     
-      <ul className={`navbar-links`}>
-        <li><Link to="/home">Store List</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
-    </nav>
+  // Navigation state configuration
+  const navStates = {
+    admin: {
+      '/home': {
+        title: 'Home',
+        links: [
+          { path: '/winnerlist', label: 'Winner List' },
+          { path: '/email', label: 'Email' },
+          { path: '/updated-mobile', label: 'Mobile Notification' },
+          { path: '/logout', label: 'Logout' },
+        ],
+      },
+      '/winnerlist': {
+        title: 'Winner List',
+        links: [
+          { path: '/home', label: 'Store List' },
+          { path: '/logout', label: 'Logout' },
+        ],
+      },
+    },
+    storeOwner: {
+      '/storedash': {
+        title: 'Store Dashboard',
+        links: [
+          { path: '/orderdash', label: 'Order Dashboard' },
+          { path: '/analyticsdash', label: 'Analytics Dashboard' },
+          { path: '/logout', label: 'Logout' },
+        ],
+      },
+      '/orderdash': {
+        title: 'Order Dashboard',
+        links: [
+          { path: '/storedash', label: 'Home' },
+          { path: '/analyticsdash', label: 'Analytics Dashboard' },
+          { path: '/logout', label: 'Logout' },
+        ],
+      },
+      '/analyticsdash': {
+        title: 'Analytics',
+        links: [
+          { path: '/storedash', label: 'Home' },
+          { path: '/orderdash', label: 'Order Dashboard' },
+          { path: '/logout', label: 'Logout' },
+        ],
+      },
+    },
+  };
 
-    )
-  }
-  else if ( location.pathname ==='/storedash' && userType === 'storeOwner'){
-    return (
-      <nav className="navbar">
-      <div className="navbar-logo">
-      <img src={Logo} alt="iDealMart Logo" style={{ height: '40px' }} />
-        <p className={'texts-navbar'}>Store Dashboard</p>
-      </div>
-     
-      <ul className={`navbar-links`}>
-        <li><Link to="/home"></Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
-    </nav>
-    )
-  }
-  
-  else if ( location.pathname ==='/orderdash' && userType === 'storeOwner'){
-    return (
-      <nav className="navbar">
-      <div className="navbar-logo">
-      <img src={Logo} alt="iDealMart Logo" style={{ height: '40px' }} />
-        <p className={'texts-navbar'}>Order Dashboard</p>
-      </div>
-     
-      <ul className={`navbar-links`}>
-        <li><Link to="/storedash">Home</Link></li>
-        <li><Link to="/analyticsdash">Analytics Dashboard</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
-    </nav>
-    )
-  }
+  const defaultState = {
+    title: 'iDealMart',
+    links: [
+      { path: '/home', label: 'Store List' },
+      { path: '/winnerlist', label: 'Winner List' },
+      { path: '/logout', label: 'Logout' },
+    ],
+  };
 
-  else if ( location.pathname ==='/analyticsdash' && userType === 'storeOwner'){
-    return (
-      <nav className="navbar">
-      <div className="navbar-logo">
-      <img src={Logo} alt="iDealMart Logo" style={{ height: '40px' }} />
-        <p className={'texts-navbar'}>Analytics</p>
-      </div>
-     
-      <ul className={`navbar-links`}>
-      <li className={'texts-navbar'}><Link to="/storedash">Home</Link></li>
-        <li className={'texts-navbar'}><Link to="/orderdash">Order Dashboard</Link></li>
-        <li className={'texts-navbar'}><Link to="/logout">Logout</Link></li>
-      </ul>
-    </nav>
-    )
-  }
+  const currentState = navStates[userType]?.[pathname] || defaultState;
 
-  else{
-    return (
-      <nav className="navbar">
-      <div className="navbar-logo">
-      <img src={Logo} alt="iDealMart Logo" style={{ height: '40px' }} />
-        <p className={'texts-navbar'}>IdealMart</p>
+  return (
+    <nav className="navbar">
+      {/* --- LEFT SIDE --- */}
+      <div className="navbar-brand">
+        <Link to="/" className="navbar-logo-link">
+          <img src={Logo} alt="iDealMart Logo" className="navbar-logo-img" />
+        </Link>
+        {currentState.title && (
+          <span className="navbar-title">{currentState.title}</span>
+        )}
       </div>
-     
-      <ul className={`navbar-links`}>
-        <li className={'texts-navbar'}><Link to="/home">Store List</Link></li>
-        <li className={'texts-navbar'}><Link to="/winnerlist">Winner List</Link></li>
-        <li className={'texts-navbar'}><Link to="/logout">Logout</Link></li>
-      </ul>
+
+      {/* --- RIGHT SIDE --- */}
+      <div className="navbar-navigation">
+        <button
+          className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation"
+        >
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
+
+        <ul className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
+          {currentState.links.map((link) => (
+            <li key={link.path}>
+              <Link to={link.path} onClick={() => setIsMenuOpen(false)}>
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
-    )
-  }
+  );
 };
 
 export default AuthNavbar;
