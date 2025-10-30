@@ -16,6 +16,7 @@ import UpdatedMobileNotificationApp from './pages/UpdatedMobileNotification';
 import UpdatedMobileNotificationAppI from './pages/UpdtMob';
 import StoreDashboard from './pages/StoreownerDashboard';
 import OrdersDashboard from './pages/OrdersDetails';
+import ProductShowcase from './pages/ProductListingAdmin';
 import StoreAnalyticsDashboard from './pages/UpdatedOrderDetails';
 function App() {
   function ResgisterandLogout(){
@@ -47,6 +48,7 @@ function App() {
             <Route path='/storedash' element={<ProtectedRoute><StoreDashboard/></ProtectedRoute>}/>
             <Route path='/orderdash' element={<ProtectedRoute><OrdersDashboard/></ProtectedRoute>}/>
             <Route path='/analyticsdash' element={<ProtectedRoute><StoreAnalyticsDashboard/></ProtectedRoute>}/>
+            <Route path='/productshowcase' element={<ProtectedRoute><ProductShowcase/></ProtectedRoute>}/>
             </Routes> 
           
         

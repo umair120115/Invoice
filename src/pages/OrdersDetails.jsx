@@ -2,6 +2,7 @@ import React, { useState , useEffect} from 'react';
 import { Package, User, Phone, MapPin, Calendar, DollarSign, ShoppingCart, CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react';
 import Navbar from '../Navbar/Navbar';
 import api from '../api';
+import Footer from '../components/Footer';
 const styles = {
   container: {
     minHeight: '100vh',
@@ -590,8 +591,8 @@ export default function OrdersDashboard() {
                   <div style={styles.infoItem}>
                     <User size={16} style={{color: '#6b7280'}} />
                     <div>
-                      <div style={styles.infoLabel}>Customer Email</div>
-                      <div style={styles.infoValue}>{order.user_name}</div>
+                      <div style={styles.infoLabel}>Customer Name</div>
+                      <div style={styles.infoValue}>{order.user_name || "Guest"}</div>
                     </div>
                   </div>
                   {/* <div style={styles.infoItem}>
@@ -665,6 +666,7 @@ export default function OrdersDashboard() {
         )}
       </div>
     </div>
+    <Footer/>
     </>
   );
 }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Store, MapPin, Clock, Mail, Phone, TrendingUp, Calendar, ShoppingBag, ShoppingBagIcon, GitGraphIcon } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import api from "../api";
+import Footer from "../components/Footer";
 const styles = {
   container: {
     minHeight: '100vh',
@@ -422,7 +423,7 @@ export default function StoreDashboard() {
     },
     {
         label:"Orders Dashboard",
-        value:"Click to See!",
+        value:"Order Dashboard",
         icon:ShoppingBag,
         gradient:'linear-gradient(to bottom right, #f43f5e, #e11d48)',
         color:"#f43f5e",
@@ -430,12 +431,20 @@ export default function StoreDashboard() {
     },
     {
         label:"Store Analytics",
-        value:"Click to see!",
+        value:"Analytics Dashboard",
         icon:GitGraphIcon,
         gradient:'linear-gradient(to bottom right, #10b981, #059669)',
         color:"#10b981",
         url:'/analyticsdash'
-    }
+    },
+    // {
+    //     label:"Products",
+    //     value:"Store Products",
+    //     icon:ShoppingBagIcon,
+    //     gradient:'linear-gradient(to bottom right, #8b5cf6, #7c3aed)', 
+    //     color:"#8b5cf6",
+    //     url:'/productshowcase'
+    // }
   ];
 
   const handleClickIcon = (url) =>{
@@ -537,11 +546,11 @@ export default function StoreDashboard() {
             </div>
             <div style={styles.detailItem}>
               <span style={styles.detailLabel}>Opens</span>
-              <span style={styles.detailValue}>{formatTime(storeData.store_details.opening_time)}</span>
+              <span style={styles.detailValue}>{formatTime(storeData.opening_time)}</span>
             </div>
             <div style={styles.detailItem}>
               <span style={styles.detailLabel}>Closes</span>
-              <span style={styles.detailValue}>{formatTime(storeData.store_details.closing_time)}</span>
+              <span style={styles.detailValue}>{formatTime(storeData.closing_time)}</span>
             </div>
           </div>
 
@@ -638,6 +647,7 @@ export default function StoreDashboard() {
         </div>
       </div>
     </div>
+    <Footer/>
     </>
   );
 }

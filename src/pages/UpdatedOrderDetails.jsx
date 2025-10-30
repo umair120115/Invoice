@@ -3,6 +3,7 @@ import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, Users, Package, Cal
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Navbar from '../Navbar/Navbar';
 import api from '../api';
+import Footer from '../components/Footer';
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
@@ -283,6 +284,7 @@ export default function StoreAnalyticsDashboard() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }
