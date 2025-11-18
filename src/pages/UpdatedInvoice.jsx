@@ -222,12 +222,12 @@ const Invoice = () => {
         pdf.text(`$${subTotalFixed}`, pageWidth - 15, yPos, { align: 'right' });
         yPos += 7;
         
-        pdf.text(`Tax (${taxPer}%):`, summaryX, yPos);
+        pdf.text(`Tax :`, summaryX, yPos);
         pdf.text(`$${taxAmountFixed}`, pageWidth - 15, yPos, { align: 'right' });
         yPos += 7;
         
         // Updated to match new logic and PDF format
-        pdf.text(`!DealMart Commission (10%):`, summaryX - 10, yPos);
+        pdf.text(`!DealMart Commission :`, summaryX - 10, yPos);
         pdf.text(`$${totalCommissionFixed}`, pageWidth - 15, yPos, { align: 'right' });
         yPos += 10;
         
@@ -323,8 +323,8 @@ const Invoice = () => {
                     <div className="footer-cont">
                         {/* Updated to use new calculation variables */}
                         <h5>Subtotal : ${subTotalFixed}</h5>
-                        <h5>Tax ({taxPer}%) : ${taxAmountFixed}</h5>
-                        <h5>!DealMart Commission (10%) : ${totalCommissionFixed}</h5>
+                        <h5>Tax  : ${taxAmountFixed}</h5>
+                        <h5>!DealMart Commission  : ${totalCommissionFixed}</h5>
                         <h4 className="payout-header">Payout Amount : ${fixedPayAmount}</h4>
                     </div>
                 </div>

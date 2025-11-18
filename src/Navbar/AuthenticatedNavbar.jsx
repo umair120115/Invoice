@@ -55,7 +55,25 @@ const AuthNavbar = () => {
           { path: '/logout', label: 'Logout' },
         ],
       },
+
     },
+    adminManager:{
+      '/order-management':{
+        title:"Admin Owner - Order Management Dashboard",
+        links:[
+          {path: '/product-listing' , label:'Our Products'},
+          {path:'/logout', label:'Logout'}
+          
+        ]
+      },
+      '/product-listing':{
+        title: "Our Products",
+        links : [
+          {path:'/order-management', label:"Your Orders"},
+          {path:'/logout',label:'Logout'}
+        ]
+      }
+    }
   };
 
   const defaultState = {

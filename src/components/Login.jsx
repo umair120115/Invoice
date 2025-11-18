@@ -50,6 +50,9 @@ function Login() {
         else if (user_type === 'storeOwner'){
           navigate("/storedash");
         }
+        else if (user_type==='adminManager'){
+          navigate("/order-management")
+        }
 
         // navigate("/home"); // Or your desired protected route
       } else {

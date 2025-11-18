@@ -8,7 +8,8 @@ import WinnerDetails from './pages/WinnersList';
 import ProtectedRoute from './components/ProtectedRoute';
 import StoreDetails from './pages/StoreDetails';
 // import NewInvoice from './pages/NewInvoices';
-import Invoice from './pages/NewInvoices';
+// import Invoice from './pages/NewInvoices';
+import Invoice from './pages/UpdatedInvoice';
 import NewStoreDetails from './pages/NewStoreDetails';
 import EmailSenderApp from './pages/EmailSending';
 import MobileNotificationApp from './pages/MobileNotification';
@@ -18,6 +19,8 @@ import StoreDashboard from './pages/StoreownerDashboard';
 import OrdersDashboard from './pages/OrdersDetails';
 import ProductShowcase from './pages/ProductListingAdmin';
 import StoreAnalyticsDashboard from './pages/UpdatedOrderDetails';
+import OrderManagementDashboard from './pages/OrderManagement';
+import ProductListingPage from './pages/StoreProductsListingPage';
 function App() {
   function ResgisterandLogout(){
     localStorage.clear();
@@ -49,6 +52,8 @@ function App() {
             <Route path='/orderdash' element={<ProtectedRoute><OrdersDashboard/></ProtectedRoute>}/>
             <Route path='/analyticsdash' element={<ProtectedRoute><StoreAnalyticsDashboard/></ProtectedRoute>}/>
             <Route path='/productshowcase' element={<ProtectedRoute><ProductShowcase/></ProtectedRoute>}/>
+            <Route path='/order-management' element={<OrderManagementDashboard/>}/>
+            <Route path='/product-listing' element={<ProtectedRoute><ProductListingPage/></ProtectedRoute>}/>
             </Routes> 
           
         
