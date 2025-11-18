@@ -10,6 +10,9 @@ const Invoice = () => {
     const [state, setState] = useState({
         taxPer: 13, // Default tax rate as requested
     })
+    const [comm, setComm] = useState({
+        commPer :10
+    })
     const navigate = useNavigate();
     
     const location = useLocation();
@@ -53,23 +56,33 @@ const Invoice = () => {
     updatedData.sort((a, b) => new Date(a.order_date) - new Date(b.order_date))
 
     const { taxPer } = state;
+    const {commPer} = comm ;
 
     // --- NEW CALCULATION LOGIC ---
     let subTotal = 0
+    let subTotalShow = 0
     for (let i = 0; i < updatedData.length; i++) {
         const item = updatedData[i]
         // Subtotal is based on the discounted price (what the customer paid)
+        const actualUnitPrice = (10 * parseFloat(item.discount_price) - parseFloat(item.unit_price)) / 9;
+        console.log("Actual Price",actualUnitPrice)
         subTotal += parseFloat(item.discount_price) * parseInt(item.quantity)
+        subTotalShow += actualUnitPrice.toFixed(3) * parseInt(item.quantity)
+        console.log("SubTotalShow",subTotalShow)
     }
+    console.log("Total",subTotalShow)
 
     const commissionPercentage = 10; // As requested: "10% of the Subtotal"
     
-    let taxAmount = (subTotal * taxPer) / 100
-    let totalCommission = (subTotal * commissionPercentage) / 100 // New commission logic
-    let payoutAmount = subTotal + taxAmount - totalCommission
+    // let taxAmount = (subTotal * taxPer) / 100
+    let taxAmount = (subTotalShow * taxPer) / 100
+    // let totalCommission = (subTotal * commPer) / 100 // New commission logic
+    let totalCommission = ((subTotalShow + taxAmount)* commPer) / 100 // New commission logic
+    // let payoutAmount = subTotal + taxAmount - totalCommission
+    let payoutAmount = subTotalShow + taxAmount - totalCommission
 
     // For display
-    let subTotalFixed = subTotal.toFixed(2)
+    let subTotalFixed = subTotalShow.toFixed(2)
     let taxAmountFixed = taxAmount.toFixed(2)
     let totalCommissionFixed = totalCommission.toFixed(2)
     let fixedPayAmount = payoutAmount.toFixed(2);
@@ -249,12 +262,19 @@ const Invoice = () => {
     const taxPerChange = (event) => {
         setState((prev) => ({ ...prev, taxPer: event.target.value }))
     }
+    const commPerChange = (event) => {
+        setComm((prev)=>({...prev, commPer: event.target.value}))
+    }
 
     return (
         <div>
             <div className="input-fields">
                 <label className="label-el" htmlFor='taxPer'><b>Tax Percentage : </b></label>
                 <input type="number" id="taxPer" placeholder='Only Numbers Allowed' value={taxPer} onChange={taxPerChange} />
+            </div>
+            <div className="input-fields">
+                <label className="label-el" htmlFor='taxPer'><b>Commission Percentage : </b></label>
+                <input type="number" id="taxPer" placeholder='Only Numbers Allowed' value={commPer} onChange={commPerChange} />
             </div>
             <div id="pdf-content">
                 <div>
@@ -303,6 +323,7 @@ const Invoice = () => {
                                 {updatedData.map((item, id) => {
                                     const orderDate = new Date(item.order_date);
                                     const actualUnitPrice = (10 * parseFloat(item.discount_price) - parseFloat(item.unit_price)) / 9;
+                                    // const actualUnitPrice = parseFloat(item.discount_price)
                                     const totalItemPrice = actualUnitPrice * parseInt(item.quantity);
 
                                     return (
