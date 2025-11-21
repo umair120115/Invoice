@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ChefHat, Star, Clock, MapPin, Phone, ArrowLeft, ShoppingCart } from 'lucide-react';
-
+import { ChefHat, Star, Clock, MapPin, Phone, ArrowLeft, ShoppingCart,LocateFixedIcon } from 'lucide-react';
+import Logo from '../assets/logoidealmart.png'
 const RestaurantMenuUI = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
@@ -40,74 +40,74 @@ const RestaurantMenuUI = () => {
         { id: 4, name: "Naan Bread", price: 2.99, category: "Bread" }
       ]
     },
-    {
-      id: 3,
-      name: "Sushi Master",
-      cuisine: "Japanese",
-      rating: 4.8,
-      deliveryTime: "35-45 min",
-      image: "🍣",
-      description: "Fresh sushi and Japanese delicacies",
-      phone: "+1 234-567-8902",
-      address: "789 Pine Road, Eastside",
-      menu: [
-        { id: 1, name: "California Roll", price: 9.99, category: "Rolls" },
-        { id: 2, name: "Salmon Sashimi", price: 16.99, category: "Sashimi" },
-        { id: 3, name: "Tempura Set", price: 14.99, category: "Tempura" },
-        { id: 4, name: "Miso Soup", price: 3.99, category: "Soup" }
-      ]
-    },
-    {
-      id: 4,
-      name: "Burger House",
-      cuisine: "American",
-      rating: 4.3,
-      deliveryTime: "20-30 min",
-      image: "🍔",
-      description: "Juicy burgers and classic American food",
-      phone: "+1 234-567-8903",
-      address: "321 Elm Street, Westside",
-      menu: [
-        { id: 1, name: "Classic Burger", price: 10.99, category: "Burgers" },
-        { id: 2, name: "Cheese Fries", price: 5.99, category: "Sides" },
-        { id: 3, name: "Chicken Wings", price: 11.99, category: "Appetizer" },
-        { id: 4, name: "Milkshake", price: 4.99, category: "Drinks" }
-      ]
-    },
-    {
-      id: 5,
-      name: "Dragon Wok",
-      cuisine: "Chinese",
-      rating: 4.6,
-      deliveryTime: "30-40 min",
-      image: "🥡",
-      description: "Authentic Chinese dishes and dim sum",
-      phone: "+1 234-567-8904",
-      address: "654 Maple Drive, Northside",
-      menu: [
-        { id: 1, name: "Kung Pao Chicken", price: 13.99, category: "Main Course" },
-        { id: 2, name: "Fried Rice", price: 8.99, category: "Rice" },
-        { id: 3, name: "Spring Rolls", price: 6.99, category: "Appetizer" },
-        { id: 4, name: "Dim Sum Platter", price: 15.99, category: "Dim Sum" }
-      ]
-    },
-    {
-      id: 6,
-      name: "Taco Fiesta",
-      cuisine: "Mexican",
-      rating: 4.4,
-      deliveryTime: "25-35 min",
-      image: "🌮",
-      description: "Vibrant Mexican flavors and fresh ingredients",
-      phone: "+1 234-567-8905",
-      address: "987 Cedar Lane, Southside",
-      menu: [
-        { id: 1, name: "Beef Tacos", price: 9.99, category: "Tacos" },
-        { id: 2, name: "Chicken Burrito", price: 11.99, category: "Burritos" },
-        { id: 3, name: "Nachos Supreme", price: 8.99, category: "Appetizer" },
-        { id: 4, name: "Churros", price: 5.99, category: "Dessert" }
-      ]
-    }
+    // {
+    //   id: 3,
+    //   name: "Sushi Master",
+    //   cuisine: "Japanese",
+    //   rating: 4.8,
+    //   deliveryTime: "35-45 min",
+    //   image: "🍣",
+    //   description: "Fresh sushi and Japanese delicacies",
+    //   phone: "+1 234-567-8902",
+    //   address: "789 Pine Road, Eastside",
+    //   menu: [
+    //     { id: 1, name: "California Roll", price: 9.99, category: "Rolls" },
+    //     { id: 2, name: "Salmon Sashimi", price: 16.99, category: "Sashimi" },
+    //     { id: 3, name: "Tempura Set", price: 14.99, category: "Tempura" },
+    //     { id: 4, name: "Miso Soup", price: 3.99, category: "Soup" }
+    //   ]
+    // },
+    // {
+    //   id: 4,
+    //   name: "Burger House",
+    //   cuisine: "American",
+    //   rating: 4.3,
+    //   deliveryTime: "20-30 min",
+    //   image: "🍔",
+    //   description: "Juicy burgers and classic American food",
+    //   phone: "+1 234-567-8903",
+    //   address: "321 Elm Street, Westside",
+    //   menu: [
+    //     { id: 1, name: "Classic Burger", price: 10.99, category: "Burgers" },
+    //     { id: 2, name: "Cheese Fries", price: 5.99, category: "Sides" },
+    //     { id: 3, name: "Chicken Wings", price: 11.99, category: "Appetizer" },
+    //     { id: 4, name: "Milkshake", price: 4.99, category: "Drinks" }
+    //   ]
+    // },
+    // {
+    //   id: 5,
+    //   name: "Dragon Wok",
+    //   cuisine: "Chinese",
+    //   rating: 4.6,
+    //   deliveryTime: "30-40 min",
+    //   image: "🥡",
+    //   description: "Authentic Chinese dishes and dim sum",
+    //   phone: "+1 234-567-8904",
+    //   address: "654 Maple Drive, Northside",
+    //   menu: [
+    //     { id: 1, name: "Kung Pao Chicken", price: 13.99, category: "Main Course" },
+    //     { id: 2, name: "Fried Rice", price: 8.99, category: "Rice" },
+    //     { id: 3, name: "Spring Rolls", price: 6.99, category: "Appetizer" },
+    //     { id: 4, name: "Dim Sum Platter", price: 15.99, category: "Dim Sum" }
+    //   ]
+    // },
+    // {
+    //   id: 6,
+    //   name: "Taco Fiesta",
+    //   cuisine: "Mexican",
+    //   rating: 4.4,
+    //   deliveryTime: "25-35 min",
+    //   image: "🌮",
+    //   description: "Vibrant Mexican flavors and fresh ingredients",
+    //   phone: "+1 234-567-8905",
+    //   address: "987 Cedar Lane, Southside",
+    //   menu: [
+    //     { id: 1, name: "Beef Tacos", price: 9.99, category: "Tacos" },
+    //     { id: 2, name: "Chicken Burrito", price: 11.99, category: "Burritos" },
+    //     { id: 3, name: "Nachos Supreme", price: 8.99, category: "Appetizer" },
+    //     { id: 4, name: "Churros", price: 5.99, category: "Dessert" }
+    //   ]
+    // }
   ];
 
   const handleRestaurantClick = (restaurant) => {
@@ -385,8 +385,9 @@ const RestaurantMenuUI = () => {
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <div style={styles.logo}>
-            <ChefHat size={32} color="#667eea" />
-            <span>FoodHub</span>
+            {/* <ChefHat size={32} color="#667eea" /> */}
+            {/* <span>FoodHub</span> */}
+            <img src={Logo} alt="idelamart" style={{width:"180px", height:"28px"}} />
           </div>
         </div>
       </header>
@@ -418,13 +419,14 @@ const RestaurantMenuUI = () => {
                 <p style={styles.cuisine}>{restaurant.cuisine}</p>
                 <div style={styles.infoRow}>
                   <div style={styles.infoItem}>
-                    <Star size={16} fill="#ffc107" color="#ffc107" />
-                    <span>{restaurant.rating}</span>
+                    {/* <Star size={16} fill="#ffc107" color="#ffc107" /> */}
+                    <LocateFixedIcon size={16}/>
+                    <span>{restaurant.address}</span>
                   </div>
-                  <div style={styles.infoItem}>
+                  {/* <div style={styles.infoItem}>
                     <Clock size={16} />
                     <span>{restaurant.deliveryTime}</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
