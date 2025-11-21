@@ -21,6 +21,7 @@ import ProductShowcase from './pages/ProductListingAdmin';
 import StoreAnalyticsDashboard from './pages/UpdatedOrderDetails';
 import OrderManagementDashboard from './pages/OrderManagement';
 import ProductListingPage from './pages/StoreProductsListingPage';
+import RestaurantMenuUI from './pages/MenuListPage';
 function App() {
   function ResgisterandLogout(){
     localStorage.clear();
@@ -54,7 +55,9 @@ function App() {
             <Route path='/productshowcase' element={<ProtectedRoute><ProductShowcase/></ProtectedRoute>}/>
             <Route path='/order-management' element={<OrderManagementDashboard/>}/>
             <Route path='/product-listing' element={<ProtectedRoute><ProductListingPage/></ProtectedRoute>}/>
+            <Route path='/store-options' element={<RestaurantMenuUI/>}/>
             </Routes> 
+            
           
         
       
