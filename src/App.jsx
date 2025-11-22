@@ -55,7 +55,7 @@ function App() {
             <Route path='/productshowcase' element={<ProtectedRoute><ProductShowcase/></ProtectedRoute>}/>
             <Route path='/order-management' element={<OrderManagementDashboard/>}/>
             <Route path='/product-listing' element={<ProtectedRoute><ProductListingPage/></ProtectedRoute>}/>
-            <Route path='/store-options' element={<RestaurantMenuUI/>}/>
+            <Route path='/humber/store-options' element={<RestaurantMenuUI/>}/>
             </Routes> 
             
           
